@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/pages/restaurant_list_page.dart';
 import 'package:restaurant_app/pages/restaurant_page.dart';
+import 'package:restaurant_app/theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,9 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: mainTheme,
       initialRoute: RestaurantListPage.routeName,
       routes: {
         RestaurantListPage.routeName: (context) => const RestaurantListPage(),
