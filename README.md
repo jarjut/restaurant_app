@@ -1,3 +1,3 @@
 # Restaurant App
 
-Dicoding Academy Submission Project
+Dicoding Academy Flutter Fundamental Submission Project

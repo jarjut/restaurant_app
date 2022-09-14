@@ -12,48 +12,71 @@ class RestaurantListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Restaurant List'),
-      // ),
-      body: FutureBuilder<String>(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/local_restaurant.json'),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // show restaurant list
-            if (snapshot.hasData) {
-              final json = jsonDecode(snapshot.data!);
-              final List listData = json['restaurants'];
-              final listRestaurant =
-                  listData.map((e) => Restaurant.fromJson(e)).toList();
-              return ListView.separated(
-                itemCount: listRestaurant.length,
-                separatorBuilder: (context, index) {
-                  return const Divider();
-                },
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: RestaurantItem(restaurant: listRestaurant[index]),
-                  );
-                },
-              );
-            }
-            // show error
-            if (snapshot.hasError) {
-              return Center(
-                child: Text(snapshot.error.toString()),
-              );
-            }
-          }
-          // By default, show a loading spinner.
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              expandedHeight: 120,
+              stretch: true,
+              floating: false,
+              pinned: true,
+              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              elevation: 1,
+              flexibleSpace: const FlexibleSpaceBar(
+                titlePadding: EdgeInsetsDirectional.only(
+                  start: 16,
+                  bottom: 16,
+                ),
+                title: Text(
+                  'Restaurant App',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+          ];
         },
+        body: FutureBuilder<String>(
+          future: DefaultAssetBundle.of(context)
+              .loadString('assets/local_restaurant.json'),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              // show restaurant list
+              if (snapshot.hasData) {
+                final json = jsonDecode(snapshot.data!);
+                final List listData = json['restaurants'];
+                final listRestaurant =
+                    listData.map((e) => Restaurant.fromJson(e)).toList();
+                return ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: listRestaurant.length,
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: RestaurantItem(restaurant: listRestaurant[index]),
+                    );
+                  },
+                );
+              }
+              // show error
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                );
+              }
+            }
+            // By default, show a loading spinner.
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
     );
   }
