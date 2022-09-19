@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/pages/restaurant_list_page.dart';
-import 'package:restaurant_app/pages/restaurant_page.dart';
-import 'package:restaurant_app/theme.dart';
+import 'package:restaurant_app/features/restaurant_detail/pages/restaurant_page.dart';
+import 'package:restaurant_app/features/restaurant_list/pages/restaurant_list_page.dart';
+import 'package:restaurant_app/app/theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,14 +9,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Restaurant App',
       theme: mainTheme,
       initialRoute: RestaurantListPage.routeName,
       routes: {
         RestaurantListPage.routeName: (context) => const RestaurantListPage(),
         RestaurantPage.routeName: (context) => RestaurantPage(
-              restaurant:
-                  ModalRoute.of(context)?.settings.arguments as Restaurant,
+              id: ModalRoute.of(context)?.settings.arguments as String,
             ),
       },
     );

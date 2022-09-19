@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:restaurant_app/constants/url.dart';
+import 'package:restaurant_app/features/restaurant_detail/pages/restaurant_page.dart';
 import 'package:restaurant_app/models/restaurant.dart';
-import 'package:restaurant_app/pages/restaurant_page.dart';
 
 class RestaurantItem extends StatelessWidget {
   const RestaurantItem({
@@ -17,7 +17,7 @@ class RestaurantItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, RestaurantPage.routeName,
-            arguments: restaurant);
+            arguments: restaurant.id);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,7 +26,7 @@ class RestaurantItem extends StatelessWidget {
           ImageCard(
             height: 200,
             width: double.infinity,
-            image: NetworkImage(restaurant.pictureId),
+            image: NetworkImage(getMediumImage(restaurant.pictureId)),
             heroTag: restaurant.pictureId,
             child: Row(
               children: [
@@ -95,39 +95,39 @@ class RestaurantItem extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8.0),
-          Row(
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.bowlFood,
-                    size: 12,
-                    color: Theme.of(context).textTheme.titleSmall?.color,
-                  ),
-                  const SizedBox(width: 3.0),
-                  Text(
-                    '${restaurant.menus.foods.length} foods',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ],
-              ),
-              const SizedBox(width: 8.0),
-              Row(
-                children: [
-                  Icon(
-                    FontAwesomeIcons.martiniGlass,
-                    size: 12,
-                    color: Theme.of(context).textTheme.titleSmall?.color,
-                  ),
-                  const SizedBox(width: 3.0),
-                  Text(
-                    '${restaurant.menus.drinks.length} drinks',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                ],
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Row(
+          //       children: [
+          //         Icon(
+          //           FontAwesomeIcons.bowlFood,
+          //           size: 12,
+          //           color: Theme.of(context).textTheme.titleSmall?.color,
+          //         ),
+          //         const SizedBox(width: 3.0),
+          //         Text(
+          //           '${restaurant.menus.foods.length} foods',
+          //           style: Theme.of(context).textTheme.titleSmall,
+          //         ),
+          //       ],
+          //     ),
+          //     const SizedBox(width: 8.0),
+          //     Row(
+          //       children: [
+          //         Icon(
+          //           FontAwesomeIcons.martiniGlass,
+          //           size: 12,
+          //           color: Theme.of(context).textTheme.titleSmall?.color,
+          //         ),
+          //         const SizedBox(width: 3.0),
+          //         Text(
+          //           '${restaurant.menus.drinks.length} drinks',
+          //           style: Theme.of(context).textTheme.titleSmall,
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
           const SizedBox(height: 6.0),
           Text(
             restaurant.name,
