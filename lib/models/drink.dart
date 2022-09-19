@@ -1,17 +1,16 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'drink.g.dart';
+
+@JsonSerializable()
 class Drink {
+  const Drink({
+    required this.name,
+  });
+
   final String name;
 
-  Drink({required this.name});
+  factory Drink.fromJson(Map<String, dynamic> json) => _$DrinkFromJson(json);
 
-  factory Drink.fromJson(Map<String, dynamic> json) {
-    return Drink(
-      name: json['name'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-    };
-  }
+  Map<String, dynamic> toJson() => _$DrinkToJson(this);
 }

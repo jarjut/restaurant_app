@@ -1,5 +1,10 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:restaurant_app/models/menu.dart';
+import 'package:restaurant_app/models/review.dart';
 
+part 'restaurant.g.dart';
+
+@JsonSerializable()
 class Restaurant {
   final String id;
   final String name;
@@ -8,8 +13,9 @@ class Restaurant {
   final String city;
   final double rating;
   final Menu menus;
+  final List<Review> customerReviews;
 
-  Restaurant({
+  const Restaurant({
     required this.id,
     required this.name,
     required this.description,
@@ -17,29 +23,11 @@ class Restaurant {
     required this.city,
     required this.rating,
     required this.menus,
+    this.customerReviews = const [],
   });
 
-  factory Restaurant.fromJson(Map<String, dynamic> json) {
-    return Restaurant(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      pictureId: json['pictureId'],
-      city: json['city'],
-      rating: (json['rating'] as num).toDouble(),
-      menus: Menu.fromJson(json['menus']),
-    );
-  }
+  factory Restaurant.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'pictureId': pictureId,
-      'city': city,
-      'rating': rating,
-      'menus': menus.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => _$RestaurantToJson(this);
 }
