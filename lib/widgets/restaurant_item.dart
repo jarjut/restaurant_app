@@ -17,7 +17,7 @@ class RestaurantItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, RestaurantPage.routeName,
-            arguments: restaurant.id);
+            arguments: restaurant);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,

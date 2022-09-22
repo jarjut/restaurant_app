@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_app/features/restaurant_list/bloc/restaurant_list_bloc.dart';
+import 'package:restaurant_app/features/restaurant_search/pages/restaurant_search_page.dart';
 import 'package:restaurant_app/injection.dart';
 import 'package:restaurant_app/repositories/restaurant_repository.dart';
 import 'package:restaurant_app/widgets/restaurant_item.dart';
@@ -38,16 +40,38 @@ class RestaurantListBody extends StatelessWidget {
               foregroundColor: Colors.black,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               elevation: 1,
-              flexibleSpace: const FlexibleSpaceBar(
-                titlePadding: EdgeInsetsDirectional.only(
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: const EdgeInsetsDirectional.only(
                   start: 16,
                   bottom: 16,
                 ),
-                title: Text(
+                background: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0.0, 0.75],
+                      colors: [
+                        Colors.green.shade100,
+                        Theme.of(context).scaffoldBackgroundColor,
+                      ],
+                    ),
+                  ),
+                ),
+                title: const Text(
                   'Restaurant App',
                   style: TextStyle(color: Colors.black),
                 ),
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, RestaurantSearchPage.routeName);
+                  },
+                ),
+              ],
             ),
           ];
         },
@@ -64,6 +88,12 @@ class RestaurantListBody extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    FaIcon(
+                      FontAwesomeIcons.triangleExclamation,
+                      size: 54,
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
+                    const SizedBox(height: 8),
                     Text(state.message),
                     TextButton(
                       onPressed: () => context

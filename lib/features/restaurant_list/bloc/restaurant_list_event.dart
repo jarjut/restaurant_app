@@ -8,12 +8,3 @@ abstract class RestaurantListEvent extends Equatable {
 }
 
 class GetRestaurantList extends RestaurantListEvent {}
-
-class SearchRestaurantList extends RestaurantListEvent {
-  final String query;
-
-  const SearchRestaurantList(this.query);
-
-  @override
-  List<Object> get props => [query];
-}
