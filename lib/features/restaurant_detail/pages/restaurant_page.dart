@@ -7,6 +7,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_app/constants/url.dart';
 import 'package:restaurant_app/features/restaurant_detail/cubit/restaurant_detail_cubit.dart';
+import 'package:restaurant_app/features/restaurant_review/pages/restaurant_review_page.dart';
 import 'package:restaurant_app/injection.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/models/review.dart';
@@ -81,6 +82,7 @@ class _RestaurantBodyState extends State<RestaurantBody> {
 
   @override
   Widget build(BuildContext context) {
+    final detailCubit = BlocProvider.of<RestaurantDetailCubit>(context);
     return Scaffold(
       body: ExtendedNestedScrollView(
         controller: scrollController,
@@ -150,14 +152,27 @@ class _RestaurantBodyState extends State<RestaurantBody> {
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                     BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
-                      builder: (context, state) {
+                      builder: (_, state) {
                         List<Review>? reviews;
                         if (state is RestaurantDetailLoaded) {
                           reviews = state.restaurant.customerReviews;
                         }
 
                         return InkWell(
-                          onTap: reviews != null ? () {} : null,
+                          onTap: reviews != null
+                              ? () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return BlocProvider.value(
+                                          value: detailCubit,
+                                          child: const RestaurantReviewPage(),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }
+                              : null,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,6 +238,18 @@ class _RestaurantBodyState extends State<RestaurantBody> {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 8),
+                    BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
+                      builder: (context, state) {
+                        if (state is RestaurantDetailLoaded) {
+                          final categories = state.restaurant.categories;
+                          if (categories.isNotEmpty) {
+                            return Text(
+                                'Categories: ${categories.map((e) => e.name).reduce((value, element) => '$value, $element')}');
+                          }
+                        }
+                        return Container();
+                      },
+                    )
                   ],
                 ),
               ),

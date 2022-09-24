@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/constants/url.dart';
 import 'package:restaurant_app/models/restaurant.dart';
+import 'package:restaurant_app/models/review.dart';
 
 class RestaurantRepository {
   final _client = Dio(
@@ -48,13 +49,15 @@ class RestaurantRepository {
   }
 
   // Add new review
-  Future<void> addReview(String id, String name, String review) async {
+  Future<List<Review>> addReview(String id, String name, String review) async {
     try {
-      await _client.post('/review', data: {
+      final response = await _client.post('/review', data: {
         'id': id,
         'name': name,
         'review': review,
       });
+      final list = response.data['customerReviews'] as List;
+      return list.map((e) => Review.fromJson(e)).toList();
     } on DioError catch (e) {
       debugPrint(e.message);
       rethrow;
