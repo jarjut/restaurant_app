@@ -7,6 +7,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_app/constants/url.dart';
 import 'package:restaurant_app/features/restaurant_detail/cubit/restaurant_detail_cubit.dart';
+import 'package:restaurant_app/features/restaurant_detail/restaurant_favorite_button.dart';
 import 'package:restaurant_app/features/restaurant_review/pages/restaurant_review_page.dart';
 import 'package:restaurant_app/injection.dart';
 import 'package:restaurant_app/models/restaurant.dart';
@@ -147,9 +148,15 @@ class _RestaurantBodyState extends State<RestaurantBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      widget.restaurant.city,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                    Row(
+                      children: [
+                        Text(
+                          widget.restaurant.city,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const Spacer(),
+                        RestaurantFavoriteButton(restaurant: widget.restaurant),
+                      ],
                     ),
                     BlocBuilder<RestaurantDetailCubit, RestaurantDetailState>(
                       builder: (_, state) {

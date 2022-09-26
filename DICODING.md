@@ -31,3 +31,19 @@ Fitur yang harus ada pada aplikasi:
 4. Terdapat indikator loading saat aplikasi memuat data.
 5. Menampilkan pesan error yang mudah dipahami oleh user ketika aplikasi diakses tanpa koneksi internet.
 6. Menggunakan salah satu library state management seperti provider, bloc, redux, dsb.
+
+## Proyek Akhir : Favorite Restaurant App
+
+## Kriteria
+
+Fitur yang harus ada pada aplikasi:
+
+1. Favorite Restaurant
+   - Pengguna harus bisa menambah dan menghapus restoran dari daftar favorit.
+   - Aplikasi harus mempunyai halaman untuk menampilkan daftar favorit.
+   - Menampilkan halaman detail dari daftar favorit.
+2. Daily Reminder
+   - Terdapat pengaturan untuk menghidupkan dan mematikan reminder di halaman setting.
+   - Daily reminder untuk menampilkan restoran secara acak pada pukul 11.00 AM.
+3. Testing
+   - Menuliskan minimal satu skenario pengujian untuk memverifikasi proses parsing json telah berhasil.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:restaurant_app/features/restaurant_favorite_list/pages/restaurant_favorite_list_page.dart';
 import 'package:restaurant_app/features/restaurant_list/bloc/restaurant_list_bloc.dart';
 import 'package:restaurant_app/features/restaurant_search/pages/restaurant_search_page.dart';
 import 'package:restaurant_app/injection.dart';
@@ -64,6 +65,13 @@ class RestaurantListBody extends StatelessWidget {
                 ),
               ),
               actions: [
+                IconButton(
+                  icon: const Icon(Icons.favorite, color: Colors.red),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                        context, RestaurantFavoriteListPage.routeName);
+                  },
+                ),
                 IconButton(
                   icon: const Icon(Icons.search),
                   onPressed: () {

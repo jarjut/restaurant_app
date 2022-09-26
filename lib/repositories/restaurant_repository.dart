@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/constants/url.dart';
+import 'package:restaurant_app/database/isar.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/models/review.dart';
 
@@ -10,6 +11,9 @@ class RestaurantRepository {
       baseUrl: baseUrl,
     ),
   );
+
+  final _isar = IsarDatabase.instance;
+  final _favoriteCollection = IsarDatabase.instance.favoriteRestaurants;
 
   /// Get list of restaurants
   Future<List<Restaurant>> getRestaurantList() async {
@@ -62,5 +66,63 @@ class RestaurantRepository {
       debugPrint(e.message);
       rethrow;
     }
+  }
+
+  Future<bool> checkFavorite(Restaurant restaurant) async {
+    try {
+      final favorite = await _favoriteCollection
+          .filter()
+          .idEqualTo(restaurant.id)
+          .findFirst();
+      return favorite != null;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Add restaurant to favorite if not exist, otherwise remove it
+  Future<bool> toggleFavorite(Restaurant restaurant) async {
+    try {
+      final favorite = await _favoriteCollection
+          .filter()
+          .idEqualTo(restaurant.id)
+          .findFirst();
+      if (favorite == null) {
+        final newFavorite = FavoriteRestaurant()
+          ..id = restaurant.id
+          ..name = restaurant.name
+          ..description = restaurant.description
+          ..pictureId = restaurant.pictureId
+          ..city = restaurant.city
+          ..rating = restaurant.rating;
+        await _isar.writeTxn(() async {
+          await _favoriteCollection.put(newFavorite);
+        });
+        return true;
+      } else {
+        await _isar.writeTxn(() async {
+          _favoriteCollection.delete(favorite.isarId);
+        });
+        return false;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+  /// Get list of favorite restaurants
+  Future<List<Restaurant>> getFavoriteRestaurantList() async {
+    final favorites = await _favoriteCollection.where().findAll();
+    return favorites
+        .map((e) => Restaurant(
+              id: e.id,
+              name: e.name,
+              description: e.description,
+              pictureId: e.pictureId,
+              city: e.city,
+              rating: e.rating,
+            ))
+        .toList();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/features/restaurant_detail/pages/restaurant_page.dart';
+import 'package:restaurant_app/features/restaurant_favorite_list/pages/restaurant_favorite_list_page.dart';
 import 'package:restaurant_app/features/restaurant_list/pages/restaurant_list_page.dart';
 import 'package:restaurant_app/app/theme.dart';
 import 'package:restaurant_app/features/restaurant_search/pages/restaurant_search_page.dart';
@@ -17,6 +18,8 @@ class MyApp extends StatelessWidget {
       initialRoute: RestaurantListPage.routeName,
       routes: {
         RestaurantListPage.routeName: (context) => const RestaurantListPage(),
+        RestaurantFavoriteListPage.routeName: (context) =>
+            const RestaurantFavoriteListPage(),
         RestaurantSearchPage.routeName: (context) =>
             const RestaurantSearchPage(),
         RestaurantPage.routeName: (context) => RestaurantPage(

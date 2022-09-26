@@ -8,6 +8,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.18.0 <3.0.0"
 
+isar_version: &isar_version ^3.0.1
+
 dependencies:
   bloc: ^8.1.0
   bloc_concurrency: ^0.2.0
@@ -23,6 +25,8 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   get_it: ^7.2.0
   google_fonts: ^3.0.1
+  isar: *isar_version
+  isar_flutter_libs: *isar_version
   json_annotation: ^4.6.0
   meta: ^1.8.0
   modal_bottom_sheet: ^2.1.2
@@ -34,6 +38,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  isar_generator: *isar_version
   json_serializable: ^6.3.2
 
 flutter:
