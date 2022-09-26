@@ -7,4 +7,13 @@ abstract class RestaurantFavoriteListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetFavoriteRestaurants extends RestaurantFavoriteListEvent {}
+class LoadFavoriteRestaurants extends RestaurantFavoriteListEvent {}
+
+class UpdateFavoriteRestaurants extends RestaurantFavoriteListEvent {
+  final List<Restaurant> restaurants;
+
+  const UpdateFavoriteRestaurants(this.restaurants);
+
+  @override
+  List<Object> get props => [restaurants];
+}

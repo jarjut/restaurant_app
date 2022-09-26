@@ -16,7 +16,7 @@ class RestaurantFavoriteListPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => RestaurantFavoriteListBloc(
         restaurantRepository: getIt.get<RestaurantRepository>(),
-      )..add(GetFavoriteRestaurants()),
+      )..add(LoadFavoriteRestaurants()),
       child: const RestaurantFavoriteListBody(),
     );
   }
@@ -61,7 +61,7 @@ class RestaurantFavoriteListBody extends StatelessWidget {
                   TextButton(
                     onPressed: () => context
                         .read<RestaurantFavoriteListBloc>()
-                        .add(GetFavoriteRestaurants()),
+                        .add(LoadFavoriteRestaurants()),
                     child: const Text('Retry'),
                   ),
                 ],
