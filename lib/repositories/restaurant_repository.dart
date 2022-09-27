@@ -12,9 +12,6 @@ class RestaurantRepository {
     ),
   );
 
-  final _isar = IsarDatabase.instance;
-  final _favoriteCollection = IsarDatabase.instance.favoriteRestaurants;
-
   /// Get list of restaurants
   Future<List<Restaurant>> getRestaurantList() async {
     try {
@@ -69,8 +66,9 @@ class RestaurantRepository {
   }
 
   Future<bool> checkFavorite(Restaurant restaurant) async {
+    final favoriteCollection = IsarDatabase.instance.favoriteRestaurants;
     try {
-      final favorite = await _favoriteCollection
+      final favorite = await favoriteCollection
           .filter()
           .idEqualTo(restaurant.id)
           .findFirst();
@@ -82,8 +80,10 @@ class RestaurantRepository {
 
   /// Add restaurant to favorite if not exist, otherwise remove it
   Future<bool> toggleFavorite(Restaurant restaurant) async {
+    final favoriteCollection = IsarDatabase.instance.favoriteRestaurants;
+    final isar = IsarDatabase.instance;
     try {
-      final favorite = await _favoriteCollection
+      final favorite = await favoriteCollection
           .filter()
           .idEqualTo(restaurant.id)
           .findFirst();
@@ -95,13 +95,13 @@ class RestaurantRepository {
           ..pictureId = restaurant.pictureId
           ..city = restaurant.city
           ..rating = restaurant.rating;
-        await _isar.writeTxn(() async {
-          await _favoriteCollection.put(newFavorite);
+        await isar.writeTxn(() async {
+          await favoriteCollection.put(newFavorite);
         });
         return true;
       } else {
-        await _isar.writeTxn(() async {
-          _favoriteCollection.delete(favorite.isarId);
+        await isar.writeTxn(() async {
+          favoriteCollection.delete(favorite.isarId);
         });
         return false;
       }
@@ -113,7 +113,8 @@ class RestaurantRepository {
 
   /// Get list of favorite restaurants
   Future<List<Restaurant>> getFavoriteRestaurantList() async {
-    final favorites = await _favoriteCollection.where().findAll();
+    final favoriteCollection = IsarDatabase.instance.favoriteRestaurants;
+    final favorites = await favoriteCollection.where().findAll();
     return favorites
         .map((e) => Restaurant(
               id: e.id,
@@ -128,7 +129,8 @@ class RestaurantRepository {
 
   /// Stream of favorite restaurants
   Stream<List<Restaurant>> getFavoriteRestaurantListStream() {
-    return _favoriteCollection
+    final favoriteCollection = IsarDatabase.instance.favoriteRestaurants;
+    return favoriteCollection
         .where()
         .watch(fireImmediately: true)
         .map((event) => event

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:restaurant_app/features/settings/bloc/settings_bloc.dart';
@@ -23,15 +25,17 @@ class SettingsPage extends StatelessWidget {
         builder: (context, state) {
           return ListView(
             children: [
-              ListTile(
-                title: const Text('Daily Reminder'),
-                trailing: Switch(
-                  value: state.dailyReminder,
-                  onChanged: (value) => context
-                      .read<SettingsBloc>()
-                      .add(SettingsChangeDailyReminder(value)),
+              if (Platform.isAndroid)
+                ListTile(
+                  title: const Text('Daily Recommendation'),
+                  subtitle: const Text('Enable notification'),
+                  trailing: Switch(
+                    value: state.dailyReminder,
+                    onChanged: (value) => context
+                        .read<SettingsBloc>()
+                        .add(SettingsChangeDailyReminder(value)),
+                  ),
                 ),
-              ),
             ],
           );
         },
