@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurant_app/features/restaurant_favorite_list/pages/restaurant_favorite_list_page.dart';
 import 'package:restaurant_app/features/restaurant_list/bloc/restaurant_list_bloc.dart';
 import 'package:restaurant_app/features/restaurant_search/pages/restaurant_search_page.dart';
+import 'package:restaurant_app/features/settings/pages/settings_page.dart';
 import 'package:restaurant_app/injection.dart';
 import 'package:restaurant_app/repositories/restaurant_repository.dart';
 import 'package:restaurant_app/widgets/restaurant_item.dart';
@@ -64,9 +65,12 @@ class RestaurantListBody extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
               ),
+              actionsIconTheme: IconThemeData(
+                color: Colors.grey.shade800,
+              ),
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.favorite, color: Colors.red),
+                  icon: const Icon(Icons.favorite),
                   onPressed: () {
                     Navigator.pushNamed(
                         context, RestaurantFavoriteListPage.routeName);
@@ -77,6 +81,12 @@ class RestaurantListBody extends StatelessWidget {
                   onPressed: () {
                     Navigator.pushNamed(
                         context, RestaurantSearchPage.routeName);
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () {
+                    Navigator.pushNamed(context, SettingsPage.routeName);
                   },
                 ),
               ],

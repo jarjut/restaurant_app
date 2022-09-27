@@ -125,4 +125,21 @@ class RestaurantRepository {
             ))
         .toList();
   }
+
+  /// Stream of favorite restaurants
+  Stream<List<Restaurant>> getFavoriteRestaurantListStream() {
+    return _favoriteCollection
+        .where()
+        .watch(fireImmediately: true)
+        .map((event) => event
+            .map((e) => Restaurant(
+                  id: e.id,
+                  name: e.name,
+                  description: e.description,
+                  pictureId: e.pictureId,
+                  city: e.city,
+                  rating: e.rating,
+                ))
+            .toList());
+  }
 }
